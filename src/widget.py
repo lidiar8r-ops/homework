@@ -1,4 +1,6 @@
 import masks as masks
+from datetime import datetime
+
 
 
 def mask_account_card(init_str: str) -> str:
@@ -9,23 +11,26 @@ def mask_account_card(init_str: str) -> str:
     :rtype: str возвращает строку с замаскированным номером
     """
     if "Счет" in init_str:
-        return masks.get_mask_account(int(init_str[5:]))
+        return "Счет " + masks.get_mask_account(int(init_str[5:]))
     else:
         poz_symb = init_str.rfind(' ') + 1
-        return masks.get_mask_card_number(int(init_str[poz_symb:]))
+        return init_str[:poz_symb+1] + masks.get_mask_card_number(int(init_str[poz_symb:]))
 
 
-def get_date(init_str: str) -> str:
+def get_date(date_str: str) -> str:
     """
         функция, которая принимает на вход строку с датой  и возвращает строку с датой
         :param init_str: строкуа с датой в формате  "2024-03-11T02:26:18.671407"
         :rtype: str возвращает строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
-        """
-    new_str = init_str
-    return new_str
+    """
+    formatted_datetime = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
+    return formatted_datetime.strftime("%d.%m.%Y")
 
-print(mask_account_card('Maestro 1596837868705199'))
-print(mask_account_card('Счет 64686473678894779589'))
-print(mask_account_card('MasterCard 7158300734726758'))
-print(mask_account_card('Visa Classic 6831982476737658'))
-print(mask_account_card('Счет 73654108430135874305'))
+
+# print(mask_account_card('Maestro 1596837868705199'))
+# print(mask_account_card('Счет 64686473678894779589'))
+# print(mask_account_card('MasterCard 7158300734726758'))
+# print(mask_account_card('Visa Classic 6831982476737658'))
+# print(mask_account_card('Счет 73654108430135874305'))
+
+# print(get_date("2024-03-11T02:26:18.671407"))
