@@ -13,8 +13,8 @@ def mask_account_card(init_str: str) -> str:
     if "Счет" in init_str:
         return "Счет " + masks.get_mask_account(int(init_str[5:]))
     else:
-        poz_symb = init_str.rfind(" ") + 1
-        return init_str[: poz_symb + 1] + masks.get_mask_card_number(int(init_str[poz_symb:]))
+        pozition_symbol = init_str.rfind(" ") + 1
+        return init_str[: pozition_symbol + 1] + masks.get_mask_card_number(int(init_str[pozition_symbol:]))
 
 
 def get_date(date_str: str) -> str:
