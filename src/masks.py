@@ -3,7 +3,8 @@ from typing import Union
 
 def get_mask_card_number(numbers: int) -> Union[str]:
     """Функция маскировки номера банковской карты в виде XXXX XX** **** XXXX, где
-    X — это цифра номера."""
+    X — это цифра номера.
+    :rtype: Union[str]"""
     str_num = str(numbers)
     return f"{str_num[0:4]} {str_num[4:6]} **** **** {str_num[-4:]}"
 
