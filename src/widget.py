@@ -2,7 +2,6 @@ import masks as masks
 from datetime import datetime
 
 
-
 def mask_account_card(init_str: str) -> str:
     """
     функция, которая обрабатывает информацию как о картах, так и о счетах и
@@ -13,15 +12,15 @@ def mask_account_card(init_str: str) -> str:
     if "Счет" in init_str:
         return "Счет " + masks.get_mask_account(int(init_str[5:]))
     else:
-        poz_symb = init_str.rfind(' ') + 1
-        return init_str[:poz_symb+1] + masks.get_mask_card_number(int(init_str[poz_symb:]))
+        poz_symb = init_str.rfind(" ") + 1
+        return init_str[: poz_symb + 1] + masks.get_mask_card_number(int(init_str[poz_symb:]))
 
 
 def get_date(date_str: str) -> str:
     """
-        функция, которая принимает на вход строку с датой  и возвращает строку с датой
-        :param init_str: строкуа с датой в формате  "2024-03-11T02:26:18.671407"
-        :rtype: str возвращает строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
+    функция, которая принимает на вход строку с датой  и возвращает строку с датой
+    :param init_str: строкуа с датой в формате  "2024-03-11T02:26:18.671407"
+    :rtype: str возвращает строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
     """
     formatted_datetime = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
     return formatted_datetime.strftime("%d.%m.%Y")
