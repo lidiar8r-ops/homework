@@ -1,0 +1,31 @@
+import masks as masks
+
+
+def mask_account_card(init_str: str) -> str:
+    """
+    функция, которая обрабатывает информацию как о картах, так и о счетах и
+    возвращает строку с замаскированным номером
+    :param init_str: принимает аргумент — строка, содержащая тип и номер карты или счета
+    :rtype: str возвращает строку с замаскированным номером
+    """
+    if "Счет" in init_str:
+        return masks.get_mask_account(int(init_str[5:]))
+    else:
+        poz_symb = init_str.rfind(' ') + 1
+        return masks.get_mask_card_number(int(init_str[poz_symb:]))
+
+
+def get_date(init_str: str) -> str:
+    """
+        функция, которая принимает на вход строку с датой  и возвращает строку с датой
+        :param init_str: строкуа с датой в формате  "2024-03-11T02:26:18.671407"
+        :rtype: str возвращает строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
+        """
+    new_str = init_str
+    return new_str
+
+print(mask_account_card('Maestro 1596837868705199'))
+print(mask_account_card('Счет 64686473678894779589'))
+print(mask_account_card('MasterCard 7158300734726758'))
+print(mask_account_card('Visa Classic 6831982476737658'))
+print(mask_account_card('Счет 73654108430135874305'))
