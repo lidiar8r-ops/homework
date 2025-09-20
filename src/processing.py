@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 
-def filter_by_state(input_list: list[dict], state: object = "EXECUTED") -> list:
+def filter_by_state(input_list: list[dict], state: str = "EXECUTED") -> list:
     """
     функция фильтрует список словарей по значение ключа и возвращает новый список словарей
     :param input_list: список словарей
@@ -9,7 +9,7 @@ def filter_by_state(input_list: list[dict], state: object = "EXECUTED") -> list:
     :return: list  возвращает список словарей, содержащий только те словари, у которых ключ state соответствует
     указанному значению.
     """
-    return [n_dict for n_dict in input_list if n_dict["state"] == state]
+    return [current_dict for current_dict in input_list if current_dict["state"] == state]
 
 
 def sort_by_date(input_list: List[Dict], sorting: bool = True) -> List[Dict]:
@@ -19,7 +19,7 @@ def sort_by_date(input_list: List[Dict], sorting: bool = True) -> List[Dict]:
     :param sorting: необязательный параметр, задающий порядок сортировки (по умолчанию — убывание)
     :return: list отсортированный по дате список словарей
     """
-    return sorted(input_list, key=lambda n_dict: n_dict["date"], reverse=sorting)
+    return sorted(input_list, key=lambda current_dict: current_dict["date"], reverse=sorting)
 
 
 # lists = [
