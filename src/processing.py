@@ -6,8 +6,8 @@ def filter_by_state(input_list: list[dict], state: object = "EXECUTED") -> list:
     функция фильтрует список словарей по значение ключа и возвращает новый список словарей
     :param input_list: список словарей
     :param state:  опционально значение для ключа state, по умолчанию 'EXECUTED'
-    :return: list  возвращает список словарей, содержащий только те словари, у которых ключ state соответствует указанному
-    значению.
+    :return: list  возвращает список словарей, содержащий только те словари, у которых ключ state соответствует
+    указанному значению.
     """
     return [n_dict for n_dict in input_list if n_dict["state"] == state]
 
