@@ -26,8 +26,21 @@ def get_mask_card_number(numbers: int) -> Union[str]:
 def get_mask_account(numbers: int) -> Union[str]:
     """Функция маскировки номера банковского счета, Номер счета замаскирован
     и отображается в формате **XXXX, где X — это цифра номера"""
+    # проверка на тип
+    for arg in [numbers]:
+        if not isinstance(arg, int):
+            raise TypeError('Ошибка типа данных')
+
+    # проверка на пустую строку
+    if numbers == 0 or numbers == None:
+        raise TypeError('Номер счета не может быть пустым')
 
     str_num = str(numbers)
+
+    # проверка на корректность длины
+    if len(str_num) != 20:
+        raise ValueError('Длина счета не равна 20')
+
     return f"**{str_num[-4:]}"
 
 
