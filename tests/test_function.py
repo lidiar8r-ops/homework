@@ -1,6 +1,7 @@
 import pytest
 
 from src.masks import get_mask_card_number, get_mask_account
+from src.widget import mask_account_card, get_date
 
 
 # """Функция get_mask_card_number:
@@ -15,20 +16,20 @@ def test_get_mask_card_number(numbers, expected):
 
 # Проверка работы функции на различных входных форматах номеров карт, включая граничные случаи и нестандартные
 # длины номеров.
-@pytest.mark.parametrize("numbers", [(70070922896063261), (770070922896063261), (70003432606362)])
+@pytest.mark.parametrize("numbers", [70070922896063261, 770070922896063261, 70003432606362, 0])
 def test_get_mask_card_number_correct_len(numbers):
     with pytest.raises(ValueError):
         get_mask_card_number(numbers)
 
 
-@pytest.mark.parametrize("numbers", [(77007092289606.3), (0000000000000000), ("7700709228960632")])
+@pytest.mark.parametrize("numbers", [77007092289606.3, '0000000000000000', "7700709228960632"])
 def test_get_mask_card_number_correct_type(numbers):
     with pytest.raises(TypeError):
         get_mask_card_number(numbers)
 
 
 # Проверка, что функция корректно обрабатывает входные строки, где отсутствует номер карты.
-@pytest.mark.parametrize("numbers", [(), (0)])
+@pytest.mark.parametrize("numbers", [None, (), ''])
 def test_get_mask_card_number_correct_empty(numbers):
     with pytest.raises(TypeError):
         get_mask_card_number(numbers)
@@ -45,9 +46,7 @@ def test_get_mask_account(numbers, expected):
 
 
 # Проверка работы функции с различными форматами
-@pytest.mark.parametrize(
-    "numbers", [(7700709228963333333.3), (000000000000000000000), ("770070922896333333300"), (), (0)]
-)
+@pytest.mark.parametrize("numbers", [7700709228963333333.3, '000000000000000000000', 0.0, "770070922896333333300",  None ,'' ])
 def test_get_mask_account_correct_type(numbers):
     with pytest.raises(TypeError):
         get_mask_account(numbers)
@@ -55,12 +54,49 @@ def test_get_mask_account_correct_type(numbers):
 
 # Проверка работы функции с различными длинами номеров счетов.
 # Проверка, что функция корректно обрабатывает входные данные, где номер счета меньше ожидаемой длины.
-@pytest.mark.parametrize(
-    "numbers", [700709228962896063261, 77007092282313196063261, 7700709228963333333, 7700323370922893, 342]
-)
+@pytest.mark.parametrize("numbers", [700709228962896063261, 77007092282313196063261, 7700323370922893, 342, 0])
 def test_get_mask_account_correct_len(numbers):
     with pytest.raises(ValueError):
         get_mask_account(numbers)
 
 
+# Модуль widget
+# Функция  mask_account_card:
+# Тесты для проверки, что функция корректно распознает и применяет нужный тип маскировки в зависимости от типа входных
+# данных (карта или счет).
+# Параметризованные тесты с разными типами карт и счетов для проверки универсальности функции.
+@pytest.mark.parametrize(
+    "init_str,  expected",
+    [
+        ("Maestro 1596837868705199", "Maestro 11596 83** **** 5199"),
+        ("Счет 64686473678894779589", "Счет **9589"),
+        ("MasterCard 7158300734726758", "MasterCard 77158 30** **** 6758"),
+        ("Visa Classic 6831982476737658", "Visa Classic 66831 98** **** 7658"),
+        ("Счет 73654108430135874305", "Счет **4305"),
+    ],
+)
+def test_mask_account_card(init_str, expected):
+    assert mask_account_card(init_str) == expected
 
+
+# Тестирование функции на обработку некорректных входных данных и проверка ее устойчивости к ошибкам.
+@pytest.mark.parametrize(
+    "init_str",
+    [
+        ("Maestro1596837868705199"),
+        ("Maestro 0"),
+        ("Maestro 1596837833368705199"),
+        ("64686473678894779589"),
+        ("Visa Classic 6ввв831982476737658"),
+        ("Visa Classic "),
+        ("СЧЕТ73654108430135874405"),
+        ("СЧЕТ"),
+        ("Счет "),
+        ("Счет 44473654108430135874304"),
+        ("Счет73654108430135874302"),
+        ("Счет 00")
+    ],
+)
+def test_mask_account_card(init_str):
+    with pytest.raises(ValueError):
+        mask_account_card(init_str)

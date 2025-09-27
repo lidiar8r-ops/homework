@@ -5,14 +5,14 @@ def get_mask_card_number(numbers: int) -> Union[str]:
     """Функция маскировки номера банковской карты в виде XXXX XX** **** XXXX, где
     X — это цифра номера.
     :rtype: Union[str]"""
+    # проверка на пустую строку
+    if numbers == None:
+        raise TypeError('Номер карты не может быть пустым')
+
     # проверка на тип
     for arg in [numbers]:
         if not isinstance(arg, int):
             raise TypeError('Ошибка типа данных')
-
-    # проверка на пустую строку
-    if numbers == 0 or numbers == None:
-        raise TypeError('Номер карты не может быть пустым')
 
     str_num = str(numbers)
 
@@ -26,14 +26,14 @@ def get_mask_card_number(numbers: int) -> Union[str]:
 def get_mask_account(numbers: int) -> Union[str]:
     """Функция маскировки номера банковского счета, Номер счета замаскирован
     и отображается в формате **XXXX, где X — это цифра номера"""
+    # проверка на пустую строку
+    if  numbers == None:
+        raise TypeError('Номер счета не может быть пустым')
+
     # проверка на тип
     for arg in [numbers]:
         if not isinstance(arg, int):
             raise TypeError('Ошибка типа данных')
-
-    # проверка на пустую строку
-    if numbers == 0 or numbers == None:
-        raise TypeError('Номер счета не может быть пустым')
 
     str_num = str(numbers)
 

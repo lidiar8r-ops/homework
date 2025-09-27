@@ -10,11 +10,23 @@ def mask_account_card(init_str: str) -> str:
     :param init_str: принимает аргумент — строка, содержащая тип и номер карты или счета
     :rtype: str возвращает строку с замаскированным номером
     """
-    if "Счет" in init_str:
-        return "Счет " + masks.get_mask_account(int(init_str[5:]))
+    pozition_symbol = init_str.rfind(" ")
+
+    if pozition_symbol > 0:
+        pozition_symbol += 1
+        try:
+            if "СЧЕТ" in init_str.upper():
+                new_str = "Счет " + masks.get_mask_account(int(init_str[5:]))
+            else:
+                new_str = init_str[: pozition_symbol + 1] + masks.get_mask_card_number(int(init_str[pozition_symbol:]))
+        except ValueError as e:
+            raise ValueError(e)
+        except TypeError as e:
+            raise TypeError(e)
+        else:
+            return new_str
     else:
-        pozition_symbol = init_str.rfind(" ") + 1
-        return init_str[: pozition_symbol + 1] + masks.get_mask_card_number(int(init_str[pozition_symbol:]))
+        raise ValueError('Некорректный формат данных')
 
 
 def get_date(date_str: str) -> str:
@@ -27,10 +39,24 @@ def get_date(date_str: str) -> str:
     return formatted_datetime.strftime("%d.%m.%Y")
 
 
+# print(mask_account_card("Maestro1596837868705199"))
+# print(mask_account_card("Maestro 1596837833368705199"))
+# print(mask_account_card("64686473678894779589"))
+# print(mask_account_card("Visa Classic 6ввв831982476737658"))
+# print(mask_account_card("Visa Classic "))
+# print(mask_account_card("СЧЕТ73654108430135874305"))
+# print(mask_account_card("СЧЕТ 73654108430135874305"))
+# print(mask_account_card("СЧЕТ"))
+# print(mask_account_card("Счет 44473654108430135874305"))
+# print(mask_account_card("Счет73654108430135874305"))
+
+
+
+
+
 # print(mask_account_card('Maestro 1596837868705199'))
 # print(mask_account_card('Счет 64686473678894779589'))
 # print(mask_account_card('MasterCard 7158300734726758'))
 # print(mask_account_card('Visa Classic 6831982476737658'))
 # print(mask_account_card('Счет 73654108430135874305'))
-
 # print(get_date("2024-03-11T02:26:18.671407"))
