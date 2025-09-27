@@ -10,7 +10,12 @@ def mask_account_card(init_str: str) -> str:
     :param init_str: принимает аргумент — строка, содержащая тип и номер карты или счета
     :rtype: str возвращает строку с замаскированным номером
     """
-    pozition_symbol = init_str.rfind(" ")
+    if init_str == None:
+        raise TypeError('Номер счета или карты не может быть пустым')
+    try:
+        pozition_symbol = init_str.rfind(" ")
+    except AttributeError as e:
+        raise AttributeError(e)
 
     if pozition_symbol > 0:
         pozition_symbol += 1
@@ -21,8 +26,6 @@ def mask_account_card(init_str: str) -> str:
                 new_str = init_str[: pozition_symbol + 1] + masks.get_mask_card_number(int(init_str[pozition_symbol:]))
         except ValueError as e:
             raise ValueError(e)
-        except TypeError as e:
-            raise TypeError(e)
         else:
             return new_str
     else:
@@ -35,28 +38,22 @@ def get_date(date_str: str) -> str:
     :param date_str: строка с датой в формате "2024-03-11T02:26:18.671407"
     :rtype: str возвращает строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
     """
-    formatted_datetime = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
-    return formatted_datetime.strftime("%d.%m.%Y")
+    try:
+        formatted_datetime = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
+    except ValueError:
+        raise ValueError("Не соответствует формату даты")
+    except TypeError:
+        raise TypeError("Не соответствует типу даты")
+    else:
+        return formatted_datetime.strftime("%d.%m.%Y")
 
+#
+# from dateutil import parser
+# date_string = "20/10/2021"
+# try:
+#     parser.parse(date_string)
+#     print("Дата корректна")
+# except ValueError:
+#     print("Дата некорректна")
 
-# print(mask_account_card("Maestro1596837868705199"))
-# print(mask_account_card("Maestro 1596837833368705199"))
-# print(mask_account_card("64686473678894779589"))
-# print(mask_account_card("Visa Classic 6ввв831982476737658"))
-# print(mask_account_card("Visa Classic "))
-# print(mask_account_card("СЧЕТ73654108430135874305"))
-# print(mask_account_card("СЧЕТ 73654108430135874305"))
-# print(mask_account_card("СЧЕТ"))
-# print(mask_account_card("Счет 44473654108430135874305"))
-# print(mask_account_card("Счет73654108430135874305"))
-
-
-
-
-
-# print(mask_account_card('Maestro 1596837868705199'))
-# print(mask_account_card('Счет 64686473678894779589'))
-# print(mask_account_card('MasterCard 7158300734726758'))
-# print(mask_account_card('Visa Classic 6831982476737658'))
-# print(mask_account_card('Счет 73654108430135874305'))
 # print(get_date("2024-03-11T02:26:18.671407"))

@@ -22,14 +22,14 @@ def test_get_mask_card_number_correct_len(numbers):
         get_mask_card_number(numbers)
 
 
-@pytest.mark.parametrize("numbers", [77007092289606.3, '0000000000000000', "7700709228960632"])
+@pytest.mark.parametrize("numbers", [77007092289606.3, "0000000000000000", "7700709228960632"])
 def test_get_mask_card_number_correct_type(numbers):
     with pytest.raises(TypeError):
         get_mask_card_number(numbers)
 
 
 # Проверка, что функция корректно обрабатывает входные строки, где отсутствует номер карты.
-@pytest.mark.parametrize("numbers", [None, (), ''])
+@pytest.mark.parametrize("numbers", [None, (), ""])
 def test_get_mask_card_number_correct_empty(numbers):
     with pytest.raises(TypeError):
         get_mask_card_number(numbers)
@@ -46,7 +46,9 @@ def test_get_mask_account(numbers, expected):
 
 
 # Проверка работы функции с различными форматами
-@pytest.mark.parametrize("numbers", [7700709228963333333.3, '000000000000000000000', 0.0, "770070922896333333300",  None ,'' ])
+@pytest.mark.parametrize(
+    "numbers", [7700709228963333333.3, "000000000000000000000", 0.0, "770070922896333333300", None, ""]
+)
 def test_get_mask_account_correct_type(numbers):
     with pytest.raises(TypeError):
         get_mask_account(numbers)
@@ -90,13 +92,91 @@ def test_mask_account_card(init_str, expected):
         ("Visa Classic 6ввв831982476737658"),
         ("Visa Classic "),
         ("СЧЕТ73654108430135874405"),
+        ("Счет ****************"),
+        ("Visa Classic 6831982476737658 *****"),
         ("СЧЕТ"),
         ("Счет "),
+        ("Счет 64686473678894-79589"),
         ("Счет 44473654108430135874304"),
         ("Счет73654108430135874302"),
-        ("Счет 00")
+        ("Счет 00"),
+        ("Счет 64686473678894779.89"),
     ],
 )
-def test_mask_account_card(init_str):
+def test_mask_account_card_correct_value(init_str):
     with pytest.raises(ValueError):
         mask_account_card(init_str)
+
+
+@pytest.mark.parametrize(
+    "init_str",
+    [
+        None,
+        "None",
+        64686473678894779.89,
+        7700709228960632,
+        (),
+        0,
+        .0,
+        "Maestro 1596837868705.99",
+        "Maestro 99 1596837868705999",
+    ],
+)
+def test_mask_account_card_correct_type(init_str):
+    with pytest.raises(TypeError):
+        mask_account_card(init_str)
+
+
+@pytest.mark.parametrize(
+    "init_str",
+    [
+        64686473678894779.89,
+        (),
+        7700709228960632,
+        0000000000000000,
+    ],
+)
+def test_mask_account_card_correct_type(init_str):
+    with pytest.raises(AttributeError):
+        mask_account_card(init_str)
+
+
+# Функция get_date:
+# Тестирование правильности преобразования даты.
+@pytest.mark.parametrize(
+    "date_str,  expected",
+    [("2024-03-11T02:26:18.671407", "11.03.2024"), ("2020-01-10T02:26:18.671407", "10.01.2020")],
+)
+def test_get_date(date_str, expected):
+    assert get_date(date_str) == expected
+
+
+# Проверка работы функции на различных входных форматах даты, включая граничные случаи и нестандартные строки с датами.
+# Проверка, что функция корректно обрабатывает входные строки, где отсутствует дата.
+@pytest.mark.parametrize(
+    "date_str",
+    [
+        "671407",
+        "2024-03-11 02:26:18.671407",
+        "2024-03-11",
+        "24-03-11T02:26:18.671407",
+        "11.03.2024",
+        "11.03.24",
+        "",
+        "dd-",
+        "Wed, 12 April 2023",
+    ],
+)
+def test_get_date_correct_value(date_str):
+    with pytest.raises(ValueError):
+        get_date(date_str)
+
+
+# Проверка, что функция корректно обрабатывает входные строки, где отсутствует дата.
+@pytest.mark.parametrize(
+    "date_str",
+    [None, ()],
+)
+def test_get_date_correct_type(date_str):
+    with pytest.raises(TypeError):
+        get_date(date_str)
