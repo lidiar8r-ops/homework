@@ -26,6 +26,8 @@ def mask_account_card(init_str: str) -> str:
                 new_str = init_str[: pozition_symbol + 1] + masks.get_mask_card_number(int(init_str[pozition_symbol:]))
         except ValueError as e:
             raise ValueError(e)
+        # except TypeError:
+        #     raise TypeError("Некорректный тип данных")
         else:
             return new_str
     else:

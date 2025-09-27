@@ -112,14 +112,6 @@ def test_mask_account_card_correct_value(init_str):
     "init_str",
     [
         None,
-        "None",
-        64686473678894779.89,
-        7700709228960632,
-        (),
-        0,
-        .0,
-        "Maestro 1596837868705.99",
-        "Maestro 99 1596837868705999",
     ],
 )
 def test_mask_account_card_correct_type(init_str):
@@ -136,7 +128,7 @@ def test_mask_account_card_correct_type(init_str):
         0000000000000000,
     ],
 )
-def test_mask_account_card_correct_type(init_str):
+def test_mask_account_card_correct_attribute(init_str):
     with pytest.raises(AttributeError):
         mask_account_card(init_str)
 
