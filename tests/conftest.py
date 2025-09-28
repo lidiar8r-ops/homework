@@ -47,10 +47,12 @@ def test_lists_no_correct_date() -> list:  # Имя фикстуры — люб�
         {"id": 615064591, "state": "CANCELED", "date": "2018"},
     ]
 
+
 @pytest.fixture
 def test_lists_no_correct_no_date() -> list:  # Имя фикстуры — любое
     return [
         {"id": 939719570, "state": "EXECUTED", "date": 2018.101},
+        {"id": 939719570, "state": "EXECUTED", "date": True},
         {"id": 939719570, "state": "EXECUTED", "date": None},
         {"id": 939719570, "state": "EXECUTED", "date": ()},
         {"id": 939719570, "state": "EXECUTED", "date": 0},

@@ -17,13 +17,13 @@ def test_get_mask_card_number(numbers, expected):
 
 # Проверка работы функции на различных входных форматах номеров карт, включая граничные случаи и нестандартные
 # длины номеров.
-@pytest.mark.parametrize("numbers", [70070922896063261, 770070922896063261, 70003432606362, 0])
+@pytest.mark.parametrize("numbers", [70070922896063261, 770070922896063261, 70003432606362])
 def test_get_mask_card_number_correct_len(numbers):
     with pytest.raises(ValueError):
         get_mask_card_number(numbers)
 
 
-@pytest.mark.parametrize("numbers", [77007092289606.3, "0000000000000000", "7700709228960632"])
+@pytest.mark.parametrize("numbers", [77007092289606.3, "0000000000000000", "7700709228960632", 0])
 def test_get_mask_card_number_correct_type(numbers):
     with pytest.raises(TypeError):
         get_mask_card_number(numbers)
@@ -48,7 +48,18 @@ def test_get_mask_account(numbers, expected):
 
 # Проверка работы функции с различными форматами
 @pytest.mark.parametrize(
-    "numbers", [7700709228963333333.3, "000000000000000000000", 0.0, "770070922896333333300", None, "", "a"]
+    "numbers",
+    [
+        7700709228963333333.3,
+        "000000000000000000000",
+        0.0,
+        "770070922896333333300",
+        None,
+        "",
+        "a",
+        "0",
+        0,
+    ],
 )
 def test_get_mask_account_correct_type(numbers):
     with pytest.raises(TypeError):
@@ -57,7 +68,7 @@ def test_get_mask_account_correct_type(numbers):
 
 # Проверка работы функции с различными длинами номеров счетов.
 # Проверка, что функция корректно обрабатывает входные данные, где номер счета меньше ожидаемой длины.
-@pytest.mark.parametrize("numbers", [700709228962896063261, 77007092282313196063261, 7700323370922893, 342, 0])
+@pytest.mark.parametrize("numbers", [700709228962896063261, 77007092282313196063261, 7700323370922893, 342])
 def test_get_mask_account_correct_len(numbers):
     with pytest.raises(ValueError):
         get_mask_account(numbers)
@@ -86,21 +97,19 @@ def test_mask_account_card(init_str, expected):
 @pytest.mark.parametrize(
     "init_str",
     [
-        ("Maestro1596837868705199"),
-        ("Maestro 0"),
-        ("Maestro 1596837833368705199"),
-        ("64686473678894779589"),
-        ("Visa Classic 6ввв831982476737658"),
-        ("Visa Classic "),
-        ("СЧЕТ73654108430135874405"),
-        ("Счет ****************"),
-        ("Visa Classic 6831982476737658 *****"),
-        ("Счет "),
-        ("Счет 64686473678894-79589"),
-        ("Счет 44473654108430135874304"),
-        ("Счет73654108430135874302"),
-        ("Счет 00"),
-        ("Счет 64686473678894779.89"),
+        "Maestro1596837868705199",
+        "Maestro 1596837833368705199",
+        "64686473678894779589",
+        "Visa Classic 6ввв831982476737658",
+        "Visa Classic ",
+        "СЧЕТ73654108430135874405",
+        "Счет ****************",
+        "Visa Classic 6831982476737658 *****",
+        "Счет ",
+        "Счет 64686473678894-79589",
+        "Счет 44473654108430135874304",
+        "Счет73654108430135874302",
+        "Счет 64686473678894779.89",
     ],
 )
 def test_mask_account_card_correct_value(init_str):
@@ -112,6 +121,8 @@ def test_mask_account_card_correct_value(init_str):
     "init_str",
     [
         None,
+        "Maestro 0",
+        "Счет 00",
     ],
 )
 def test_mask_account_card_correct_type(init_str):
@@ -122,10 +133,7 @@ def test_mask_account_card_correct_type(init_str):
 @pytest.mark.parametrize(
     "init_str",
     [
-        64686473678894779.89,
-        (),
-        7700709228960632,
-        0000000000000000,
+        True,
     ],
 )
 def test_mask_account_card_correct_attribute(init_str):
@@ -293,11 +301,11 @@ def test_sort_by_date_correct_value(test_lists_no_correct_date):
     with pytest.raises(ValueError):
         sort_by_date(test_lists_no_correct_date)
 
+
 # 2 Тест на работу функции с некорректными или нестандартными форматами дат.
 def test_sort_by_date_correct_type(test_lists_no_correct_no_date):
     with pytest.raises(TypeError):
         sort_by_date(test_lists_no_correct_no_date)
-
 
 
 # Проверка работы функции при отсутствии словарей с указанным статусом date в списке.

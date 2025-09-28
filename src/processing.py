@@ -1,5 +1,5 @@
-from typing import Dict, List
 from datetime import datetime
+from typing import Dict, List
 
 
 def filter_by_state(input_list: list[dict], state: str = "EXECUTED") -> list:
@@ -11,8 +11,8 @@ def filter_by_state(input_list: list[dict], state: str = "EXECUTED") -> list:
     указанному значению.
     """
     for current_dict in input_list:
-        if 'state' not in current_dict.keys():
-            raise KeyError('В списке не удалось найти ключ state')
+        if "state" not in current_dict.keys():
+            raise KeyError("В списке не удалось найти ключ state")
 
     return [current_dict for current_dict in input_list if current_dict["state"] == state]
 
@@ -25,16 +25,16 @@ def sort_by_date(input_list: List[Dict], sorting: bool = True) -> List[Dict]:
     :return: list отсортированный по дате список словарей
     """
     for current_dict in input_list:
-        if 'date' not in current_dict.keys():
-            raise KeyError('В словаре не удалось найти ключ date')
-        #print (current_dict.get('date'))
+        if "date" not in current_dict.keys():
+            raise KeyError("В словаре не удалось найти ключ date")
+
+        if not isinstance(current_dict.get("date"), str):
+            raise TypeError("Ошибка типа данных")
+
         try:
-            if datetime.strptime(current_dict.get('date'), "%Y-%m-%dT%H:%M:%S.%f"):
+            if datetime.strptime(str(current_dict.get("date")), "%Y-%m-%dT%H:%M:%S.%f"):
                 continue
         except ValueError:
             raise ValueError("Не соответствует формату даты")
-        except TypeError:
-            raise TypeError("Не соответствует типу даты")
 
     return sorted(input_list, key=lambda current_dict: current_dict["date"], reverse=sorting)
-

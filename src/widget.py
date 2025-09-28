@@ -10,8 +10,8 @@ def mask_account_card(init_str: str) -> str:
     :param init_str: принимает аргумент — строка, содержащая тип и номер карты или счета
     :rtype: str возвращает строку с замаскированным номером
     """
-    if init_str == None:
-        raise TypeError('Номер счета или карты не может быть пустым')
+    if not init_str:
+        raise TypeError("Номер счета или карты не может быть пустым")
     try:
         pozition_symbol = init_str.rfind(" ")
     except AttributeError as e:
@@ -26,12 +26,12 @@ def mask_account_card(init_str: str) -> str:
                 new_str = init_str[: pozition_symbol + 1] + masks.get_mask_card_number(int(init_str[pozition_symbol:]))
         except ValueError as e:
             raise ValueError(e)
-        # except TypeError:
-        #     raise TypeError("Некорректный тип данных")
+        except TypeError:
+            raise TypeError("Некорректный тип данных")
         else:
             return new_str
     else:
-        raise ValueError('Некорректный формат данных')
+        raise ValueError("Некорректный формат данных")
 
 
 def get_date(date_str: str) -> str:
