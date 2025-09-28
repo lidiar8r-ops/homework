@@ -48,14 +48,3 @@ def get_date(date_str: str) -> str:
         raise TypeError("Не соответствует типу даты")
     else:
         return formatted_datetime.strftime("%d.%m.%Y")
-
-#
-# from dateutil import parser
-# date_string = "20/10/2021"
-# try:
-#     parser.parse(date_string)
-#     print("Дата корректна")
-# except ValueError:
-#     print("Дата некорректна")
-
-# print(get_date("2024-03-11T02:26:18.671407"))

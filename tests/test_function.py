@@ -1,8 +1,8 @@
 import pytest
 
-from src.masks import get_mask_card_number, get_mask_account
-from src.processing import filter_by_state
-from src.widget import mask_account_card, get_date
+from src.masks import get_mask_account, get_mask_card_number
+from src.processing import filter_by_state, sort_by_date
+from src.widget import get_date, mask_account_card
 
 
 # """Функция get_mask_card_number:
@@ -209,10 +209,10 @@ def test_filter_by_state(test_lists, state, expected):
 
 
 # Проверка работы функции при отсутствии словарей с указанным статусом state в списке.
-def test_filter_by_state_correct_key(test_lists_no_correct):
+def test_filter_by_state_correct_key(test_lists_no_correct_key):
     """Проверка работы функции при отсутствии словарей с ключом state в списке."""
     with pytest.raises(KeyError):
-        filter_by_state(test_lists_no_correct)
+        filter_by_state(test_lists_no_correct_key)
 
 
 @pytest.mark.parametrize(
@@ -227,8 +227,81 @@ def test_filter_by_state_correct_value(test_lists, state, expected):
     assert filter_by_state(test_lists, state) == expected
 
 
-
 # Функция sort_by_date:
 # Тестирование сортировки списка словарей по датам в порядке убывания и возрастания.
-# Проверка корректности сортировки при одинаковых датах.
-# Тесты на работу функции с некорректными или нестандартными форматами дат.
+@pytest.mark.parametrize(
+    "sorting, expected",
+    [
+        (
+            True,
+            [
+                {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+                {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+                {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+            ],
+        ),
+        (
+            False,
+            [
+                {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+                {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+                {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+            ],
+        ),
+    ],
+)
+def test_sort_by_date(test_lists, sorting, expected):
+    assert sort_by_date(test_lists, sorting) == expected
+    assert sort_by_date(test_lists, sorting) == expected
+
+
+# # Проверка корректности сортировки при одинаковых датах.
+@pytest.mark.parametrize(
+    "sorting, expected",
+    [
+        (
+            True,
+            [
+                {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+                {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+                {"id": 594226726, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+            ],
+        ),
+        (
+            False,
+            [
+                {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+                {"id": 594226726, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+                {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+            ],
+        ),
+    ],
+)
+def test_sort_by_date_similar(test_lists_date_similar, sorting, expected):
+    """Проверка корректности сортировки при одинаковых датах."""
+    assert sort_by_date(test_lists_date_similar, sorting) == expected
+
+
+# # Тесты на работу функции с некорректными или нестандартными форматами дат.
+def test_sort_by_date_correct_value(test_lists_no_correct_date):
+    with pytest.raises(ValueError):
+        sort_by_date(test_lists_no_correct_date)
+
+# 2 Тест на работу функции с некорректными или нестандартными форматами дат.
+def test_sort_by_date_correct_type(test_lists_no_correct_no_date):
+    with pytest.raises(TypeError):
+        sort_by_date(test_lists_no_correct_no_date)
+
+
+
+# Проверка работы функции при отсутствии словарей с указанным статусом date в списке.
+def test_sort_by_date_correct_key(test_lists_no_correct_key):
+    """Проверка работы функции при отсутствии словарей с ключом state в списке."""
+    with pytest.raises(KeyError):
+        sort_by_date(test_lists_no_correct_key)
