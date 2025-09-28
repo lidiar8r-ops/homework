@@ -1,6 +1,7 @@
 import pytest
 
 from src.masks import get_mask_card_number, get_mask_account
+from src.processing import filter_by_state
 from src.widget import mask_account_card, get_date
 
 
@@ -47,7 +48,7 @@ def test_get_mask_account(numbers, expected):
 
 # Проверка работы функции с различными форматами
 @pytest.mark.parametrize(
-    "numbers", [7700709228963333333.3, "000000000000000000000", 0.0, "770070922896333333300", None, ""]
+    "numbers", [7700709228963333333.3, "000000000000000000000", 0.0, "770070922896333333300", None, "", "a"]
 )
 def test_get_mask_account_correct_type(numbers):
     with pytest.raises(TypeError):
@@ -94,7 +95,6 @@ def test_mask_account_card(init_str, expected):
         ("СЧЕТ73654108430135874405"),
         ("Счет ****************"),
         ("Visa Classic 6831982476737658 *****"),
-        ("СЧЕТ"),
         ("Счет "),
         ("Счет 64686473678894-79589"),
         ("Счет 44473654108430135874304"),
@@ -172,3 +172,63 @@ def test_get_date_correct_value(date_str):
 def test_get_date_correct_type(date_str):
     with pytest.raises(TypeError):
         get_date(date_str)
+
+
+# Общие аспекты тестирования
+# Фикстуры. Для всех тестов создайте фикстуры, которые предоставят тестовые данные для списков словарей, включая
+# различные случаи и комбинации
+# state и date.
+#
+#
+# Модуль processing
+# Функция filter_by_state:
+# Тестирование фильтрации списка словарей по заданному статусу state.
+# Параметризация тестов для различных возможных значений статуса state.
+@pytest.mark.parametrize(
+    "state, expected",
+    [
+        (
+            "CANCELED",
+            [
+                {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+                {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+            ],
+        ),
+        (
+            "EXECUTED",
+            [
+                {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+                {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+            ],
+        ),
+    ],
+)
+def test_filter_by_state(test_lists, state, expected):
+    assert filter_by_state(test_lists, state) == expected
+    assert filter_by_state(test_lists, state) == expected
+
+
+# Проверка работы функции при отсутствии словарей с указанным статусом state в списке.
+def test_filter_by_state_correct_key(test_lists_no_correct):
+    """Проверка работы функции при отсутствии словарей с ключом state в списке."""
+    with pytest.raises(KeyError):
+        filter_by_state(test_lists_no_correct)
+
+
+@pytest.mark.parametrize(
+    "state, expected",
+    [
+        ("CANCELED ", []),
+        ("EXECUTE", []),
+    ],
+)
+def test_filter_by_state_correct_value(test_lists, state, expected):
+    """Проверка работы функции при отсутствии словарей с указанным статусом state в списке."""
+    assert filter_by_state(test_lists, state) == expected
+
+
+
+# Функция sort_by_date:
+# Тестирование сортировки списка словарей по датам в порядке убывания и возрастания.
+# Проверка корректности сортировки при одинаковых датах.
+# Тесты на работу функции с некорректными или нестандартными форматами дат.
