@@ -79,3 +79,6 @@ def test_filter_by_currency_no_carrrency(test_lists_transaction_no_currency, exp
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
     assert list(filter_by_currency(test_lists_transaction_no_currency)) == expected
 
+
+
+
