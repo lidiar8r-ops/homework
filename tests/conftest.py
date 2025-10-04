@@ -93,7 +93,7 @@ def test_lists_transaction() -> list:  # Имя фикстуры — любое
 
 
 @pytest.fixture
-def test_lists_transaction_no_corrency() -> list:  # Имя фикстуры — любое
+def test_lists_transaction_no_currency() -> list:  # Имя фикстуры — любое
     return [
         {
             "id": 939719570,
@@ -104,4 +104,13 @@ def test_lists_transaction_no_corrency() -> list:  # Имя фикстуры —
             "from": "Счет 75106830613657916952",
             "to": "Счет 11776614605963066702",
         },
-    ]
+        {
+        "id": 939719571,
+        "state": "EXECUTED",
+        "date": "2018-06-30T02:08:58.425572",
+        "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+        "description": "Перевод организации",
+        "from": "Счет 75106830613657916952",
+        "to": "Счет 11776614605963066702",
+    },
+]

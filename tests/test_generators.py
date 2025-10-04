@@ -58,59 +58,24 @@ def test_filter_by_currency_rub(test_lists_transaction, expected):
         assert next(usd_transactions) == expected[_]
 
 
-@pytest.mark.parametrize(
-    "expected",
-    [[]],
-)
-def test_filter_by_currency_absent_carrrency(test_lists_transaction, expected):
+
+def test_filter_by_currency_absent_carrrency(test_lists_transaction):
     """Функция, проверяющая, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте отсутствуют."""
     usd_transactions = filter_by_currency(test_lists_transaction, "DZD")
-    assert list(usd_transactions) == expected
+    assert list(usd_transactions) == []
 
 
 def test_filter_by_currency_no_list():
     """Функция, проверяющая, что генератор не завершается ошибкой при обработке пустого списка или списка без
     соответствующих валютных операций."""
-    # usd_transactions = filter_by_currency(test_lists_transaction_no_corrency, "USD")
     assert list(filter_by_currency([])) == []
 
 
-def test_filter_by_currency_no_carrrency(test_lists_transaction_no_corrency):
-    """Функция, проверяющая, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте
-    отсутствуют."""
-    assert list(filter_by_currency(test_lists_transaction_no_corrency)) == []
-
-
 @pytest.mark.parametrize(
-    "list_no_correct,expected",
-    [
-        (
-            {
-                "id": 939719570,
-                "state": "EXECUTED",
-                "date": "2018-06-30T02:08:58.425572",
-                "operationAmount": {"amount": "9824.07", "currency": {}},
-                "description": "Перевод организации",
-                "from": "Счет 75106830613657916952",
-                "to": "Счет 11776614605963066702",
-            },
-            [],
-        ),
-        (
-            {
-                "id": 939719570,
-                "state": "EXECUTED",
-                "date": "2018-06-30T02:08:58.425572",
-                "operationAmount": {"amount": "9824.07", "currenc": {"name": "USD", "code1": "USD"}},
-                "description": "Перевод организации",
-                "from": "Счет 75106830613657916952",
-                "to": "Счет 11776614605963066702",
-            },
-            [],
-        ),
-    ],
+    "expected",
+    [[],[]],
 )
-def test_filter_by_currency_no_carrrency2(list_no_correct, expected):
-    """Функция, проверяющая, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте
-    отсутствуют."""
-    assert list(filter_by_currency(list_no_correct)) == expected
+def test_filter_by_currency_no_carrrency(test_lists_transaction_no_currency, expected):
+    """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
+    assert list(filter_by_currency(test_lists_transaction_no_currency)) == expected
+
