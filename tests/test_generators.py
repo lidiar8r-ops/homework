@@ -127,12 +127,12 @@ def test_card_number_generator(expected):
 
 def test_card_number_generator_no_correct():
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
-    mum_stop =9999_9999_9999_9999
+    mum_stop = 9999_9999_9999_9999
     mum_stop += 2
     with pytest.raises(TypeError):
         list(card_number_generator(44.5, 22))
     with pytest.raises(TypeError):
-        list(card_number_generator("a", 'd'))
+        list(card_number_generator("a", "d"))
     with pytest.raises(TypeError):
         list(card_number_generator([], 7))
     assert list(card_number_generator(2, None)) == []
