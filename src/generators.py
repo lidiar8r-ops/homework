@@ -27,7 +27,7 @@ def filter_by_currency(transactions: list[dict], currency: str = 'USD')   ->  An
         for transaction in transactions:
              if transaction["operationAmount"]["currency"]["code"] == currency:
                 yield  transaction
-    return  []
+    return  "Информация не найдена"
 
 
 def transaction_descriptions(transactions: list[dict])   ->  Any | None :
@@ -44,7 +44,7 @@ def transaction_descriptions(transactions: list[dict])   ->  Any | None :
         if operation_amount is  None:
             return "Информация о переводе отсутствует"
         else:
-            yield current_dictget("description")
-    return  []
+            yield current_dict.get("description")
+    return  "Информация о переводе отсутствует"
 
 

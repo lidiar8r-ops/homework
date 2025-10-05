@@ -60,7 +60,7 @@ def test_lists_no_correct_no_date() -> list:  # Имя фикстуры — лю
 
 
 @pytest.fixture
-def test_lists_transaction() -> list:  # Имя фикстуры — любое
+def transactions() -> list:  # Имя фикстуры — любое
     return [
         {
             "id": 939719570,
@@ -111,7 +111,7 @@ def test_lists_transaction() -> list:  # Имя фикстуры — любое
 
 
 @pytest.fixture
-def test_lists_transaction_no_currency() -> list:  # Имя фикстуры — любое
+def transactions_no_currency() -> list:  # Имя фикстуры — любое
     return [
         {
             "id": 939719570,

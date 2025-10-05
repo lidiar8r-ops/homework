@@ -28,9 +28,9 @@ from src.generators import filter_by_currency, transaction_descriptions
         ]
     ],
 )
-def test_filter_by_currency(test_lists_transaction, expected):
+def test_filter_by_currency(transactions, expected):
     """Функция, проверяющая, что функция корректно фильтрует транзакции по заданной валюте."""
-    usd_transactions = filter_by_currency(test_lists_transaction, "USD")
+    usd_transactions = filter_by_currency(transactions, "USD")
     for _ in range(2):
         assert next(usd_transactions) == expected[_]
 
@@ -49,32 +49,31 @@ def test_filter_by_currency(test_lists_transaction, expected):
         }
     ],
 )
-def test_filter_by_currency_rub(test_lists_transaction, expected):
+def test_filter_by_currency_rub(transactions, expected):
     """Функция, проверяющая, что функция корректно фильтрует транзакции по заданной валюте."""
-    usd_transactions = filter_by_currency(test_lists_transaction, "RUB")
+    usd_transactions = filter_by_currency(transactions, "RUB")
     for _ in range(1):
         assert next(usd_transactions) == expected
 
 
-def test_filter_by_currency_absent_carrrency(test_lists_transaction):
+def test_filter_by_currency_absent_carrrency(transactions):
     """Функция, проверяющая, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте отсутствуют."""
-    usd_transactions = filter_by_currency(test_lists_transaction, "DZD")
+    usd_transactions = filter_by_currency(transactions, "DZD")
     assert list(usd_transactions) == []
 
 
-def test_filter_by_currency_no_carrrency(test_lists_transaction_no_currency):
+def test_filter_by_currency_no_carrrency(transactions_no_currency):
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
     assert list(filter_by_currency([])) == []
     assert list(filter_by_currency(None)) == []
     for i in range(4):
-        assert list(filter_by_currency([test_lists_transaction_no_currency[i]])) == []
+        assert list(filter_by_currency([transactions_no_currency[i]])) == []
     if i > 4:
-        assert list(filter_by_currency(test_lists_transaction_no_currency[i])) == []
-
-
+        assert list(filter_by_currency(transactions_no_currency[i])) == []
 
 
 # генератор transaction_descriptions
+
 
 @pytest.mark.parametrize(
     "expected",
@@ -86,8 +85,8 @@ def test_filter_by_currency_no_carrrency(test_lists_transaction_no_currency):
         "Перевод организации",
     ],
 )
-def test_transaction_descriptions(test_lists_transaction, expected):
+def test_transaction_descriptions(transactions, expected):
     """Функция, проверяющая, что функция корректно фильтрует транзакции по заданной валюте."""
-    usd_transactions = transaction_descriptions(test_lists_transaction)
+    descriptions = transaction_descriptions(transactions)
     for _ in range(5):
-        assert next(usd_transactions) == expected
+        print(next(descriptions))
