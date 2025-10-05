@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 @pytest.mark.parametrize(
@@ -120,15 +120,20 @@ def test_card_number_generator(expected):
         assert list(card_number_generator(1, 5))[_] == expected[_]
     assert list(card_number_generator(9999_9999_9998_9999, 9999_9999_9998_9999))[0] == "9999 9999 9998 9999"
     assert list(card_number_generator(9999_9999_9999_9999, 9999_9999_9999_9999))[0] == "9999 9999 9999 9999"
+    assert list(card_number_generator(5_9999_9999, 6_0000_0000))[0] == "0000 0005 9999 9999"
+    assert list(card_number_generator(5_9999_9999, 6_0000_0001))[1] == "0000 0006 0000 0000"
     assert list(card_number_generator(1, 1))[0] == "0000 0000 0000 0001"
 
 
 def test_card_number_generator_no_correct():
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
+    assert list(card_number_generator(2, None)) == []
+    assert list(card_number_generator(None, None)) == []
+    with pytest.raises(TypeError):
+        list(card_number_generator([], 7))
+    with pytest.raises(TypeError):
+        list(card_number_generator("a3", 7))
     assert list(card_number_generator(-1, 2)) == []
     assert list(card_number_generator(0, 1)) == []
     assert list(card_number_generator(5, 2)) == []
-    print(f"{list(card_number_generator(9999_9999_9999_99991,9999_9999_9999_9999))} kmfm!!!!!!!!!!!!!!!!!!" )
-    print(f"{list(card_number_generator(-5, -2))} kmfm!!!!!!!!!!!!!!!!!!" )
-    print(f"{list(card_number_generator(5, -2))} kmfm!!!!!!!!!!!!!!!!!!" )
     assert list(card_number_generator(5, -2)) == []

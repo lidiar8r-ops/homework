@@ -55,23 +55,25 @@ def card_number_generator(start: int, stop: int) -> Any | str:
     :param stop:  конечное значения для генерации диапазона номеров.
     :return: номера банковских карт в форматеXXXX XXXX XXXX XXXX, где X — цифра номера карты.
     """
-    # if stop isint:
     if start is None:
-        raise NameError("Не задано начальное значения для генерации диапазона номеров")
-    if start <= 0:
-        raise NameError("Не верно задано конечное значения для генерации диапазона номеров")
+        return "Не задано начальное значения для генерации диапазона номеров"
     if stop is None:
         return "Не задано начальное значения для генерации диапазона номеров"
+    if start <= 0:
+        return "Не верно задано конечное значения для генерации диапазона номеров"
     if stop <= 0 or stop > 9999_9999_9999_9999:
         return "Не верно задано конечное значения для генерации диапазона номеров"
     if start > stop:
         return "Конечное значение не может быть меньше чем начальное значение"
+    if not str(start).isdigit() or not str(stop).isdigit():
+        raise TypeError("Не соответствие типов")
 
     for number in range(start, stop + 1):
         if number <= stop:
             str_number = str(number).zfill(16)
             str_num = f"{str_number[0:4]} {str_number[4:8]} {str_number[8:12]} {str_number[-4:]}"
             yield str_num
+
 
 # num = list(card_number_generator(-2,3))
 # print(num)
