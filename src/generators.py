@@ -25,9 +25,26 @@ def filter_by_currency(transactions: list[dict], currency: str = 'USD')   ->  An
             return "Информация о сумме операции не найдена"
 
         for transaction in transactions:
-            print(transaction)
-            if transaction["operationAmount"]["currency"]["code"] == currency:
+             if transaction["operationAmount"]["currency"]["code"] == currency:
                 yield  transaction
+    return  []
+
+
+def transaction_descriptions(transactions: list[dict])   ->  Any | None :
+    """
+    Функция, который принимает список словарей с транзакциями и возвращает описание каждой операции по очереди.
+    :param transactions: список словарей, представляющих транзакции.
+    :return: возвращает описание каждой операции по очереди.
+    """
+    if  transactions is None or len(transactions) == 0 :
+        return 'Список транзакций пуст'
+
+    for current_dict in transactions:
+        operation_amount = current_dict.get("description")
+        if operation_amount is  None:
+            return "Информация о переводе отсутствует"
+        else:
+            yield current_dictget("description")
     return  []
 
 
