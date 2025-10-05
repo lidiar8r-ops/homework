@@ -135,12 +135,18 @@ def transactions_no_currency() -> list:  # Имя фикстуры — любо�
             "state": "CANCELED",
             "date": "2018-09-12T21:27:25.241689",
             "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "codes": "RUB"}},
-            "description": "Перевод организации",
-            "description": "Перевод организации2",
+            "descriptio_n": "Перевод организации",
             "from": "Visa Platinum 1246377376343588",
             "to": "Счет 14211924144426031657",
         },
-        {},
-        [],
-        None,
+        {
+            "id": 594226727,
+            "state": "CANCELED",
+            "date": "2018-09-12T21:27:25.241689",
+            "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "codes": "RUB"}},
+            "description":  None,
+            "from": "Visa Platinum 1246377376343588",
+            "to": "Счет 14211924144426031657",
+        },
+
     ]

@@ -65,11 +65,10 @@ def test_filter_by_currency_absent_carrrency(transactions):
 def test_filter_by_currency_no_carrrency(transactions_no_currency):
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
     assert list(filter_by_currency([])) == []
+    assert list(filter_by_currency({})) == []
     assert list(filter_by_currency(None)) == []
-    for i in range(4):
-        assert list(filter_by_currency([transactions_no_currency[i]])) == []
-    if i > 4:
-        assert list(filter_by_currency(transactions_no_currency[i])) == []
+    for _ in range(4):
+        assert list(filter_by_currency([transactions_no_currency[_]])) == []
 
 
 # генератор transaction_descriptions
@@ -90,3 +89,12 @@ def test_transaction_descriptions(transactions, expected):
     descriptions = transaction_descriptions(transactions)
     for _ in range(5):
         print(next(descriptions))
+
+
+def test_transaction_descriptions_no_description(transactions_no_currency):
+    """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
+    assert list(transaction_descriptions([])) == []
+    assert list(transaction_descriptions({})) == []
+    assert list(transaction_descriptions(None)) == []
+    for _ in range(4):
+        assert list(transaction_descriptions([transactions_no_currency[_]])) == []
