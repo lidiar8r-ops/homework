@@ -45,6 +45,4 @@ def transaction_descriptions(transactions: list[dict])   ->  Any | None :
             return "Информация о переводе отсутствует"
         else:
             yield current_dict.get("description")
-    return  "Информация о переводе отсутствует"
-
 
