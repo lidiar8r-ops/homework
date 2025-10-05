@@ -8,8 +8,8 @@ def filter_by_currency(transactions: list[dict], currency: str = 'USD')   ->  An
     :param currency:валюта операции
     :return: итератор, который поочередно выдает транзакции, где валюта операции соответствует заданной
     """
-    if len(transactions) == 0 or  transactions is None:
-        print('Список транзакций пуст')
+    if  transactions is None or len(transactions) == 0 :
+        return 'Список транзакций пуст'
 
     for current_dict in transactions:
         operation_amount = current_dict.get("operationAmount")
@@ -23,10 +23,9 @@ def filter_by_currency(transactions: list[dict], currency: str = 'USD')   ->  An
                 return "Информация о валюте не найдена"
         else:
             return "Информация о сумме операции не найдена"
-        # except:
-        #     return "Информация о сумме операции не найдена"
 
         for transaction in transactions:
+            print(transaction)
             if transaction["operationAmount"]["currency"]["code"] == currency:
                 yield  transaction
     return  []
