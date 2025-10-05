@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Generator
 
 
 def filter_by_currency(transactions: list[dict], currency: str = 'USD')   ->  Any | None :
@@ -47,13 +47,13 @@ def transaction_descriptions(transactions: list[dict])   ->  Any | None :
             yield current_dict.get("description")
 
 
-def card_number_generator(start: int, stop: int) -> str:
+def card_number_generator(start: int, stop: int) ->  Any | str:
     """
     генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты.
     Генератор может сгенерировать номера карт в заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999.
     :param start: начальное значения для генерации диапазона номеров.
     :param stop:  конечное значения для генерации диапазона номеров.
-    :return: омера банковских карт в форматеXXXX XXXX XXXX XXXX, где X — цифра номера карты.
+    :return: номера банковских карт в форматеXXXX XXXX XXXX XXXX, где X — цифра номера карты.
     """
     # if stop isint:
     if start is None:
@@ -67,7 +67,6 @@ def card_number_generator(start: int, stop: int) -> str:
     if start > stop :
         return "Конечное значение не может быть меньше чем начальное значение"
 
-    str_num = ''
 
     for number in range(start, stop+1):
         if number <= stop:
@@ -77,10 +76,3 @@ def card_number_generator(start: int, stop: int) -> str:
                 # print(str_number)
             str_num = f"{str_number[0:4]} {str_number[4:7]} {str_number[7:11]} {str_number[-4:]}"
             yield str_num
-
-
-
-
-for card_number in card_number_generator(1, 5):
-    print(card_number)
-

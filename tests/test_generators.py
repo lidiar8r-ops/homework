@@ -72,24 +72,21 @@ def test_filter_by_currency_no_carrrency(transactions_no_currency):
 
 
 # генератор transaction_descriptions
-
-
 @pytest.mark.parametrize(
     "expected",
     [
-        "Перевод организации",
+       [ "Перевод организации",
         "Перевод со счета на счет",
         "Перевод со счета на счет",
         "Перевод с карты на карту",
-        "Перевод организации",
+        "Перевод организации",]
     ],
 )
 def test_transaction_descriptions(transactions, expected):
     """Функция, проверяющая, что функция корректно фильтрует транзакции по заданной валюте."""
     descriptions = transaction_descriptions(transactions)
     for _ in range(5):
-        print(next(descriptions))
-
+        assert next(descriptions) == expected[_]
 
 def test_transaction_descriptions_no_description(transactions_no_currency):
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
@@ -98,3 +95,21 @@ def test_transaction_descriptions_no_description(transactions_no_currency):
     assert list(transaction_descriptions(None)) == []
     for _ in range(4):
         assert list(transaction_descriptions([transactions_no_currency[_]])) == []
+
+
+
+# Тестирование генератора  card_number_generator
+@pytest.mark.parametrize(
+    "expected",
+    [
+        ["0000 0000 0000 0001",
+        "0000 0000 0000 0002",
+        "0000 0000 0000 0003",
+        "0000 0000 0000 0004",
+        "0000 0000 0000 0005",]
+    ],
+)
+def test_card_number_generator(transactions, expected):
+    """Функция, проверяющая, что функция корректно фильтрует транзакции по заданной валюте."""
+    for card_number in card_number_generator(1, 5):
+        print(card_number)
