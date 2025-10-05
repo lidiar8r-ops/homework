@@ -68,3 +68,6 @@ def test_filter_by_currency_no_carrrency(test_lists_transaction_no_currency):
         print(_)
         print(list(test_lists_transaction_no_currency[_]))
         assert list(filter_by_currency([test_lists_transaction_no_currency[_]])) == []
+
+
+
