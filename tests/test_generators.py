@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import filter_by_currency, transaction_descriptions
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 
 @pytest.mark.parametrize(
@@ -57,7 +57,8 @@ def test_filter_by_currency_rub(transactions, expected):
 
 
 def test_filter_by_currency_absent_carrrency(transactions):
-    """Функция, проверяющая, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте отсутствуют."""
+    """Функция, проверяющая, что функция правильно обрабатывает случаи, когда транзакции в заданной
+    валюте отсутствуют."""
     usd_transactions = filter_by_currency(transactions, "DZD")
     assert list(usd_transactions) == []
 
@@ -75,11 +76,13 @@ def test_filter_by_currency_no_carrrency(transactions_no_currency):
 @pytest.mark.parametrize(
     "expected",
     [
-       [ "Перевод организации",
-        "Перевод со счета на счет",
-        "Перевод со счета на счет",
-        "Перевод с карты на карту",
-        "Перевод организации",]
+        [
+            "Перевод организации",
+            "Перевод со счета на счет",
+            "Перевод со счета на счет",
+            "Перевод с карты на карту",
+            "Перевод организации",
+        ]
     ],
 )
 def test_transaction_descriptions(transactions, expected):
@@ -87,6 +90,7 @@ def test_transaction_descriptions(transactions, expected):
     descriptions = transaction_descriptions(transactions)
     for _ in range(5):
         assert next(descriptions) == expected[_]
+
 
 def test_transaction_descriptions_no_description(transactions_no_currency):
     """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
@@ -97,19 +101,34 @@ def test_transaction_descriptions_no_description(transactions_no_currency):
         assert list(transaction_descriptions([transactions_no_currency[_]])) == []
 
 
-
 # Тестирование генератора  card_number_generator
 @pytest.mark.parametrize(
     "expected",
     [
-        ["0000 0000 0000 0001",
-        "0000 0000 0000 0002",
-        "0000 0000 0000 0003",
-        "0000 0000 0000 0004",
-        "0000 0000 0000 0005",]
+        [
+            "0000 0000 0000 0001",
+            "0000 0000 0000 0002",
+            "0000 0000 0000 0003",
+            "0000 0000 0000 0004",
+            "0000 0000 0000 0005",
+        ],
     ],
 )
-def test_card_number_generator(transactions, expected):
+def test_card_number_generator(expected):
     """Функция, проверяющая, что функция корректно фильтрует транзакции по заданной валюте."""
-    for card_number in card_number_generator(1, 5):
-        print(card_number)
+    for _ in range(5):
+        assert list(card_number_generator(1, 5))[_] == expected[_]
+    assert list(card_number_generator(9999_9999_9998_9999, 9999_9999_9998_9999))[0] == "9999 9999 9998 9999"
+    assert list(card_number_generator(9999_9999_9999_9999, 9999_9999_9999_9999))[0] == "9999 9999 9999 9999"
+    assert list(card_number_generator(1, 1))[0] == "0000 0000 0000 0001"
+
+
+def test_card_number_generator_no_correct():
+    """Функция, проверяющая случаи поиска без соответствующих валютных операций."""
+    assert list(card_number_generator(-1, 2)) == []
+    assert list(card_number_generator(0, 1)) == []
+    assert list(card_number_generator(5, 2)) == []
+    print(f"{list(card_number_generator(9999_9999_9999_99991,9999_9999_9999_9999))} kmfm!!!!!!!!!!!!!!!!!!" )
+    print(f"{list(card_number_generator(-5, -2))} kmfm!!!!!!!!!!!!!!!!!!" )
+    print(f"{list(card_number_generator(5, -2))} kmfm!!!!!!!!!!!!!!!!!!" )
+    assert list(card_number_generator(5, -2)) == []
