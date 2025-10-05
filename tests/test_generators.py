@@ -130,7 +130,7 @@ def test_card_number_generator_no_correct():
     mum_stop =9999_9999_9999_9999
     mum_stop += 2
     with pytest.raises(TypeError):
-        list(card_number_generator("[a]", 'd'))
+        list(card_number_generator(44.5, 22))
     with pytest.raises(TypeError):
         list(card_number_generator("a", 'd'))
     with pytest.raises(TypeError):
@@ -138,7 +138,7 @@ def test_card_number_generator_no_correct():
     assert list(card_number_generator(2, None)) == []
     assert list(card_number_generator(9999_9999_9999_9998, mum_stop)) == []
     assert list(card_number_generator(None, None)) == []
-    # assert list(card_number_generator(-1, 2)) == []
+    assert list(card_number_generator(-1, 2)) == []
     assert list(card_number_generator(0, 1)) == []
     assert list(card_number_generator(5, 2)) == []
-    # assert list(card_number_generator(5, -2)) == []
+    assert list(card_number_generator(5, -2)) == []

@@ -59,15 +59,15 @@ def card_number_generator(start: int, stop: int) -> Any | str:
         return "Не задано начальное значения для генерации диапазона номеров"
     if stop is None:
         return "Не задано начальное значения для генерации диапазона номеров"
-    if not str(start).isdigit() or not str(stop).isdigit():
-        raise TypeError("Не соответствие типов")
-
     if start <= 0:
         return "Не верно задано конечное значения для генерации диапазона номеров"
     if stop <= 0 :
         return "Не верно задано конечное значения для генерации диапазона номеров"
+    if not str(start).isdigit() or not str(stop).isdigit():
+        raise TypeError("Не соответствие типов")
+
     if stop > 9999_9999_9999_9999:
-            return "Не верно задано конечное значения для генерации диапазона номеров"
+        return "Не верно задано конечное значения для генерации диапазона номеров"
 
     if start > stop:
         return "Конечное значение не может быть меньше чем начальное значение"
