@@ -3,7 +3,6 @@
 # при успешном выполнении:  my_function ok
 # Ожидаемый вывод при ошибке: my_function error: тип ошибки. Inputs: (1, 2), {}
 # Где тип ошибки заменяется на текст ошибки.
-import os
 from datetime import datetime
 from functools import wraps
 from typing import Any, Callable
@@ -34,8 +33,8 @@ def log(filename: str = "") -> Callable[..., Any]:
                 print(str_result_3)
             else:
                 try:
-                # if not os.path.exists(filename) and os.path.isfile(filename):
-                #     raise FileNotFoundError(f"Path {filename} does not exist")
+                    # if not os.path.exists(filename) and os.path.isfile(filename):
+                    #     raise FileNotFoundError(f"Path {filename} does not exist")
                     with open(filename, "a", encoding="utf-8") as file:
                         file.write(str_result_1)
                         file.write(str_result_2)
@@ -48,11 +47,3 @@ def log(filename: str = "") -> Callable[..., Any]:
         return wrapper
 
     return decorator_log
-
-
-# name_file_n = "..\\data\\mylog.txt"
-# @log(filename=name_file_n)
-# def my_function_test(x, y):
-#     return x + y
-#
-# my_function_test(1, 2)
