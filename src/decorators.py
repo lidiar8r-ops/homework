@@ -30,9 +30,9 @@ def log(filename=''):
             str_result_3 = f'\nвремя завершения работы функции {current_time_stop}'
 
             if filename == '':
-                print(str_result_1)
+                # print(str_result_1)
                 print(str_result_2)
-                print(str_result_3)
+                # print(str_result_3)
             else:
                 with open(filename, 'a', encoding='utf-8') as file:
                     file.write(str_result_1)
