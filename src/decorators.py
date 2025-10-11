@@ -26,27 +26,24 @@ def log(filename=''):
 
 
             # str_result = f'Начало выполнения функции : {current_time_start}\n{func.__name__} {result_bool}. Inputs: {args}, {kwargs} \nвремя завершения работы функции {current_time_stop}'
-            str_result_1 = f'Начало выполнения функции : {current_time_start}'
-            str_result_3 = f'время завершения работы функции {current_time_stop}'
+            str_result_1 = f'\nНачало выполнения функции : {current_time_start}\n'
+            str_result_3 = f'\nвремя завершения работы функции {current_time_stop}'
 
             if filename == '':
                 print(str_result_1)
                 print(str_result_2)
                 print(str_result_3)
             else:
-                with open(filename, 'a', encoding='cp1251') as file:
+                with open(filename, 'a', encoding='utf-8') as file:
                     file.write(str_result_1)
                     file.write(str_result_2)
                     file.write(str_result_3)
-                print(str_result_1)
-                print(str_result_2)
-                print(str_result_3)
         return wrapper
     return decorator_log
 
 
-@log(filename="mylog.txt")
-def my_function(x, y):
-    return x + y
-
-my_function(1, 2)
+# @log(filename="mylog.txt")
+# def my_function(x, y):
+#     return x / y
+#
+# my_function(1, 0)
