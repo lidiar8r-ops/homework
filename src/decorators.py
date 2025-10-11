@@ -3,14 +3,13 @@
 # при успешном выполнении:  my_function ok
 # Ожидаемый вывод при ошибке: my_function error: тип ошибки. Inputs: (1, 2), {}
 # Где тип ошибки заменяется на текст ошибки.
-
-import os
-from datetime import  datetime
-
+from datetime import datetime
+from functools import  wraps
 
 
 def log(filename=''):
     def decorator_log(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             current_time_start = datetime.now().time()
 
@@ -40,9 +39,9 @@ def log(filename=''):
                     file.write(str_result_3)
         return wrapper
     return decorator_log
-
-
-# @log(filename="mylog.txt")
+#
+#
+# @log(filename="..\\data\\mylog.txt")
 # def my_function(x, y):
 #     return x / y
 #
