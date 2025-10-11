@@ -60,7 +60,7 @@ def test_my_function_no_args():
 
 
 @log()
-def my_function_kwargs(x, y, str_kwargs='5'):
+def my_function_kwargs(x, y, str_kwargs="5"):
     return x + y, str_kwargs
 
 

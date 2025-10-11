@@ -9,6 +9,12 @@ from typing import Any, Callable
 
 
 def log(filename: str = "") -> Callable[..., Any]:
+    """декоратор, который  автоматически логирует начало и конец выполнения функции, а также ее результаты или
+    возникшие ошибки.Декоратор должен принимать необязательный аргумент filename, который определяет, куда будут
+    записываться логи (в файл или в консоль):
+    Если filename задан, логи записываются в указанный файл.
+    Если filename не задан, логи выводятся в консоль."""
+
     def decorator_log(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
