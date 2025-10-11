@@ -29,18 +29,20 @@ def log(filename=''):
             str_result_3 = f'\nвремя завершения работы функции {current_time_stop}'
 
             if filename == '':
-                # print(str_result_1)
+                print(str_result_1)
                 print(str_result_2)
-                # print(str_result_3)
+                print(str_result_3)
             else:
                 with open(filename, 'a', encoding='utf-8') as file:
                     file.write(str_result_1)
                     file.write(str_result_2)
                     file.write(str_result_3)
+
+            return  str_result_2
         return wrapper
     return decorator_log
-#
-#
+
+
 # @log(filename="..\\data\\mylog.txt")
 # def my_function(x, y):
 #     return x / y

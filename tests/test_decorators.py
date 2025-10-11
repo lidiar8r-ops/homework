@@ -10,7 +10,7 @@ def my_function(x, y):
 def test_log_ok(capsys):
     my_function(1, 2)
     captured = capsys.readouterr()
-    assert captured.out == "my_function ok\n"
+    assert captured.out == "my_function ok"
 
 
 @log(filename="..\\data\\mylog.txt")
@@ -20,11 +20,11 @@ def my_function_del(x, y):
 
 def test_log_ok_file(capsys):
     my_function(1, 2)
-    name_file = "..\\data\\mylog.txt"
+    # name_file = "..\\data\\mylog.txt"
 
-    # name_dir = os.path.dirname(os.path.dirname(__file__).rstrip("/"))
-    #
-    # name_file = os.path.join(name_dir, "src", 'mylog.txt')
+    name_dir = os.path.dirname(os.path.dirname(__file__).rstrip("/"))
+
+    name_file = os.path.join(name_dir, "data", 'mylog.txt')
     with open(name_file, "r") as f:
         text_file = f.read()
     assert "my_function ok" in text_file
