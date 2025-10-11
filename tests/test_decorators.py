@@ -14,12 +14,12 @@ def test_log_ok(capsys):
 
 
 @log()
-def my_function1(x, y):
+def my_function_del(x, y):
     return x / y
 
 def test_log_error(capsys):
-    with pytest.raises(Exception, match="my_function1 error: (division by zero). Inputs: (1, 0), {}"):
-        my_function1(1, 0)
+    with pytest.raises(Exception, match="my_function_del error: (division by zero). Inputs: (1, 0), {}"):
+        my_function_del(1, 0)
         captured = capsys.readouterr()
 
 
