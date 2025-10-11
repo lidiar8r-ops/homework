@@ -48,3 +48,11 @@ def log(filename: str = "") -> Callable[..., Any]:
         return wrapper
 
     return decorator_log
+
+
+# name_file_n = "..\\data\\mylog.txt"
+# @log(filename=name_file_n)
+# def my_function_test(x, y):
+#     return x + y
+#
+# my_function_test(1, 2)
