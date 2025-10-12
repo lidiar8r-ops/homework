@@ -31,7 +31,6 @@ def test_log_error():
 
 name_file = r"data4\mylog.txt"
 
-
 @log(filename=name_file)
 def my_function_del(x, y):
     return x / y
