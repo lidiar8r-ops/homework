@@ -40,8 +40,6 @@ def log(filename: str = "") -> Callable[..., Any]:
 
             else:
                 try:
-                    # if not os.path.exists(filename) and os.path.isfile(filename):
-                    #     raise FileNotFoundError(f"Path {filename} does not exist")
                     with open(filename, "a", encoding="utf-8") as file:
                         file.write(str_result_1)
                         file.write(str_result_2)
