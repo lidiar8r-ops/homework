@@ -21,7 +21,7 @@ def log(filename: str = "") -> Callable[..., Any]:
             current_time_start = datetime.now().time()
 
             try:
-                func(*args, **kwargs)
+                result = func(*args, **kwargs)
                 current_time_stop = datetime.now().time()
                 result_bool = "ok"
                 str_result_2 = f"{func.__name__} {result_bool}"
@@ -37,6 +37,7 @@ def log(filename: str = "") -> Callable[..., Any]:
                 print(str_result_1)
                 print(str_result_2)
                 print(str_result_3)
+
             else:
                 try:
                     # if not os.path.exists(filename) and os.path.isfile(filename):
@@ -47,8 +48,9 @@ def log(filename: str = "") -> Callable[..., Any]:
                         file.write(str_result_3)
                 except FileNotFoundError as e:
                     raise FileNotFoundError(e)
-
-            return str_result_2
+            if "error" in result_bool:
+                raise ValueError(result_bool)
+            return result
 
         return wrapper
 

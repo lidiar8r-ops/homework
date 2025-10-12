@@ -8,9 +8,15 @@ def my_function(x, y):
     return x + y
 
 
-def test_log_ok():
+def test_decorator_log(capsys):
     result = my_function(1, 2)
-    assert result == "my_function ok"
+    assert result == 3
+
+
+def test_log_ok(capsys):
+    my_function(1, 2)
+    captured = capsys.readouterr()
+    assert "my_function ok" in captured.out
 
 
 @log()
@@ -19,8 +25,8 @@ def my_function_delete(x, y):
 
 
 def test_log_error():
-    result = my_function_delete(1, 0)
-    assert result == "my_function_delete error: (division by zero). Inputs: (1, 0), {}"
+    with pytest.raises(ValueError):
+        my_function_delete(1, 0)
 
 
 name_file = r"data4\mylog.txt"
@@ -41,7 +47,7 @@ def test_log_ok_file():
 
     @log(filename=name_file_n)
     def my_function_test(x, y):
-        return x + y
+        return x / y
 
     my_function_test(1, 2)
     with open(r"data\mylog.txt", "r", encoding="utf-8") as f:
@@ -56,7 +62,7 @@ def my_function_no_args():
 
 def test_my_function_no_args():
     result = my_function_no_args()
-    assert result == "my_function_no_args ok"
+    assert result == "No arguments"
 
 
 @log()
@@ -64,9 +70,7 @@ def my_function_kwargs(x, y, str_kwargs="5"):
     return x + y, str_kwargs
 
 
-def test_my_function_kwargs():
-    result = my_function_kwargs()
-    assert result == (
-        "my_function_kwargs error: (my_function_kwargs() missing 2 required "
-        "positional arguments: 'x' and 'y'). Inputs: (), {}"
-    )
+def test_my_function_kwargs(capsys):
+    my_function_kwargs(4, 5, 7.2)
+    captured = capsys.readouterr()
+    assert captured.out[46:-50] == "my_function_kwargs ok"
