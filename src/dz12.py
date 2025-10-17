@@ -2,7 +2,8 @@ import requests
 
 
 def get_weather(city: str):
-    request = requests.get('https://gismeteo/.../?q=' + city)
-    return request
+    with open("\data\weather.json", "r", encoding="utf-8") as f:
+        load()
+     return request
 
 
