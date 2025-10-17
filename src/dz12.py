@@ -11,12 +11,16 @@ def get_avg_weather(city: str):
             data = json.load(f)
         except json.JSONDecodeError:
             print("Ошибка обработки файла")
-        day_temperature = [value for value in  data[city].values() ]
+            return False
+        if len(data[city].values()) == 0:
+            avg_temperature = 0
+        else:
+            avg_temperature = round(sum(data[city].values()) / len(data[city].values()), 2)
 
-        data_city = { f"{city}": {"Average temperature": f"{sum(day_temperature) / 7}"}}
+        data_city = { f"{city}": {"Average temperature": f"{avg_temperature}"}}
         with open("..\\data\\weather_city.json", "w", encoding="utf-8") as f:
             json.dump(data_city, f, ensure_ascii=False, indent=4)
-        return sum(day_temperature) / 7
+        return avg_temperature
 
 
 def get_days_between_dates(date_1, date_2: str):
@@ -30,7 +34,7 @@ def get_github_repos(username: str) -> list[str]:
 
 
 
-# print(get_weather("Moscow"))
+print(get_avg_weather("Moscow"))
 
 # print(get_days_between_dates("01.01.2022", "31.01.2022"))
 

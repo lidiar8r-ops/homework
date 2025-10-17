@@ -1,3 +1,5 @@
 {
-    "Moscow": "-0.2857142857142857"
+    "Moscow": {
+        "Average temperature": "-0.29"
+    }
 }
