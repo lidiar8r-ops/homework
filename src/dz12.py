@@ -1,6 +1,8 @@
 import datetime
 import  json
 
+import requests
+
 
 def get_weather(city: str):
     with open("..\\data\\weather.json", "r", encoding="utf-8") as f:
@@ -17,10 +19,17 @@ def get_weather(city: str):
 def get_days_between_dates(date_1, date_2: str):
     date_dt_1 = datetime.datetime.strptime(date_1, "%d.%m.%Y")
     date_dt_2 = datetime.datetime.strptime(date_2, "%d.%m.%Y")
-    return date_dt_2 - date_dt_1
+    return (date_dt_2 - date_dt_1).days
 
+def get_github_repos(username: str) -> list[str]:
+    response = requests.get('https://api.github.com/users/{username}/repos'.format(username=username))
+    print(response.text)
 
 
 
 # print(get_weather("Moscow"))
-print(get_days_between_dates("01.01.2022", "31.01.2022"))
+
+# print(get_days_between_dates("01.01.2022", "31.01.2022"))
+
+repos = get_github_repos('octocat')
+print(repos)
