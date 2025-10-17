@@ -40,14 +40,19 @@ def get_days_between_dates(date1, date2: str) -> int:
 
 
 def get_github_repos(username: str) -> list[str]:
+    """ Получение репозиториев пользователя"""
     response = requests.get('https://api.github.com/users/{username}/repos'.format(username=username))
-    print(response.content)
+    if response.status_code == 200:
+        all_repositoris = [repo["full_name"] for repo in  response.json()]
+    else:
+       all_repositoris = 0
 
+    return all_repositoris
 
 
 print(get_avg_weather("Moscow"))
 
 print(get_days_between_dates("01.01.2022", "31.01.2022"))
 
-repos = get_github_repos('lidiar8r-ops')
+repos = get_github_repos('octocat')
 print(repos)
