@@ -4,13 +4,16 @@ import  json
 import requests
 
 
-def get_weather(city: str):
+def get_avg_weather(city: str):
+    """Получение средней температура по городу city"""
     with open("..\\data\\weather.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError:
+            print("Ошибка обработки файла")
         day_temperature = [value for value in  data[city].values() ]
-        #print(day_temperature)
-        #with open(f"..\\data\\weather_{city}.json", "w", encoding="utf-8") as f:
-        data_city = { f"{city}": f"{sum(day_temperature) / 7}"}
+
+        data_city = { f"{city}": {"Average temperature": f"{sum(day_temperature) / 7}"}}
         with open("..\\data\\weather_city.json", "w", encoding="utf-8") as f:
             json.dump(data_city, f, ensure_ascii=False, indent=4)
         return sum(day_temperature) / 7
@@ -23,7 +26,7 @@ def get_days_between_dates(date_1, date_2: str):
 
 def get_github_repos(username: str) -> list[str]:
     response = requests.get('https://api.github.com/users/{username}/repos'.format(username=username))
-    print(response.text)
+    print(response.content)
 
 
 
@@ -31,5 +34,5 @@ def get_github_repos(username: str) -> list[str]:
 
 # print(get_days_between_dates("01.01.2022", "31.01.2022"))
 
-repos = get_github_repos('octocat')
+repos = get_github_repos('lidiar8r-ops')
 print(repos)
