@@ -6,21 +6,30 @@ import requests
 
 def get_avg_weather(city: str):
     """Получение средней температура по городу city"""
-    with open("..\\data\\weather.json", "r", encoding="utf-8") as f:
-        try:
-            data = json.load(f)
-        except json.JSONDecodeError:
-            print("Ошибка обработки файла")
-            return False
-        if len(data[city].values()) == 0:
-            avg_temperature = 0
-        else:
-            avg_temperature = round(sum(data[city].values()) / len(data[city].values()), 2)
+    try:
+        with open("..\\data\\weather.json", "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                print("Ошибка обработки JSON файла")
+                return False
+    except FileNotFoundError:
+        print("Файл не найден")
+        return False
 
-        data_city = { f"{city}": {"Average temperature": f"{avg_temperature}"}}
-        with open("..\\data\\weather_city.json", "w", encoding="utf-8") as f:
-            json.dump(data_city, f, ensure_ascii=False, indent=4)
-        return avg_temperature
+    if len(data[city].values()) == 0:
+        avg_temperature = 0
+    else:
+        avg_temperature = round(sum(data[city].values()) / len(data[city].values()), 2)
+
+    data_city = { city:
+        {
+            "Average temperature": avg_temperature
+        }
+    }
+    with open("..\\data\\weather_city.json", "w", encoding="utf-8") as f:
+        json.dump(data_city, f, ensure_ascii=False, indent=4)
+    return True
 
 
 def get_days_between_dates(date_1, date_2: str):
