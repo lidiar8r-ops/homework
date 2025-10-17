@@ -32,10 +32,10 @@ def get_avg_weather(city: str):
     return True
 
 
-def get_days_between_dates(date_1, date_2: str) -> int:
+def get_days_between_dates(date1, date2: str) -> int:
     """ Получение дней между датами"""
-    date_dt_1 = datetime.datetime.strptime(date_1, "%d.%m.%Y")
-    date_dt_2 = datetime.datetime.strptime(date_2, "%d.%m.%Y")
+    date_dt_1 = datetime.datetime.strptime(date1, "%d.%m.%Y")
+    date_dt_2 = datetime.datetime.strptime(date2, "%d.%m.%Y")
     return (date_dt_2 - date_dt_1).days
 
 
