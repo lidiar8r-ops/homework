@@ -1,4 +1,4 @@
-import os
+import datetime
 import  json
 
 
@@ -14,6 +14,13 @@ def get_weather(city: str):
         return sum(day_temperature) / 7
 
 
+def get_days_between_dates(date_1, date_2: str):
+    date_dt_1 = datetime.datetime.strptime(date_1, "%d.%m.%Y")
+    date_dt_2 = datetime.datetime.strptime(date_2, "%d.%m.%Y")
+    return date_dt_2 - date_dt_1
 
 
-print(get_weather("Moscow"))
+
+
+# print(get_weather("Moscow"))
+print(get_days_between_dates("01.01.2022", "31.01.2022"))
