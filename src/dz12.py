@@ -45,7 +45,7 @@ def get_github_repos(username: str) -> list[str]:
     if response.status_code == 200:
         all_repositoris = [repo["full_name"] for repo in  response.json()]
     else:
-       all_repositoris = 0
+       all_repositoris = []
 
     return all_repositoris
 
