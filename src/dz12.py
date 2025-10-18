@@ -1,5 +1,6 @@
 import datetime
 import  json
+import logging
 
 import requests
 
@@ -50,22 +51,26 @@ def get_github_repos(username: str) -> list[str]:
     return all_repositoris
 
 
-ogger = logging.getLogger(__name__)
-file_handler = logging.FileHandler('example.log')
-file_formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
+file_handler = logging.FileHandler('..\\logs\\log_dz.log')
+file_formatter = logging.Formatter('%(levelname)s: %(name)s: Request Time: %(asctime)s')
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 def get_users_repos() -> None:
     """ Получение репозиториев пользователя"""
+    logger.info(f"Получение данных")
     response = requests.get('https://jsonplaceholder.typicode.com/users')
-    print(response)
+    # print(response)
     if response.status_code == 200:
-        with open("..\\data\\users.json", "w", encoding="utf-8") as f:
+        name_file = "..\\data\\users.json"
+        logger.info(f"запись полученных данных в файл {name_file}")
+        with open(name_file, "w", encoding="utf-8") as f:
             json.dump(response.json(), f, ensure_ascii=False, indent=4)
 
-
+    else:
+        logger.error('Ошибка получения данных')
 
 # print(get_avg_weather("Moscow"))
 #
