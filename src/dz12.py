@@ -45,14 +45,29 @@ def get_github_repos(username: str) -> list[str]:
     if response.status_code == 200:
         all_repositoris = [repo["full_name"] for repo in  response.json()]
     else:
-       all_repositoris = []
+       all_repositoris = 0
 
     return all_repositoris
 
 
-print(get_avg_weather("Moscow"))
+def get_users_repos() -> None:
+    """ Получение репозиториев пользователя"""
+    response = requests.get('https://jsonplaceholder.typicode.com/users')
+    print(response)
+    if response.status_code == 200:
+        all_repositoris = [repo["full_name"] for repo in  response.json()]
+    else:
+       all_repositoris = 0
 
-print(get_days_between_dates("01.01.2022", "31.01.2022"))
+    return all_repositoris
 
-repos = get_github_repos('octocat')
-print(repos)
+
+# print(get_avg_weather("Moscow"))
+#
+# print(get_days_between_dates("01.01.2022", "31.01.2022"))
+#
+# repos = get_github_repos('octocat')
+# print(repos)
+
+
+print(get_users_repos())
