@@ -50,16 +50,21 @@ def get_github_repos(username: str) -> list[str]:
     return all_repositoris
 
 
+ogger = logging.getLogger(__name__)
+file_handler = logging.FileHandler('example.log')
+file_formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
+logger.setLevel(logging.DEBUG)
+
 def get_users_repos() -> None:
     """ Получение репозиториев пользователя"""
     response = requests.get('https://jsonplaceholder.typicode.com/users')
     print(response)
     if response.status_code == 200:
-        all_repositoris = [repo["full_name"] for repo in  response.json()]
-    else:
-       all_repositoris = 0
+        with open("..\\data\\users.json", "w", encoding="utf-8") as f:
+            json.dump(response.json(), f, ensure_ascii=False, indent=4)
 
-    return all_repositoris
 
 
 # print(get_avg_weather("Moscow"))
