@@ -177,14 +177,3 @@ def transaction_params_load_usd() -> dict:
     }
 
 
-@pytest.fixture
-def mock_request():
-    with patch("requests.get") as mocked_get:
-        yield mocked_get
-
-
-@pytest.fixture
-def mock_request():
-    with patch("requests.get") as mocked_get:
-        yield mocked_get
-

@@ -12,7 +12,7 @@ def test_usd_to_rub_conversion(transaction_params_load_usd, mock_request):
     mock_response.json.return_value = {"result": 100.00}
     mock_request.return_value = mock_response
 
-    expected_result = 31957.58
+    expected_result = 100
     actual_result = get_currency_exchange(transaction_params_load_usd)
     assert expected_result == actual_result  # сравнение чисел с плавающей точкой
 
@@ -33,21 +33,24 @@ def test_zero_amount():
     assert expected_result == actual_result
 
 
-def test_http_error(mock_request):
+@pytest.fixture
+def mock_request():
+    with patch("requests.get") as mocked_get:
+        yield mocked_get
+
+def test_http_error(transaction_params_load_usd, mock_request):
     """Проверка реакции на сетевую ошибку (код статуса отличающийся от 200)"""
     mock_response = Mock()
     mock_response.status_code = 404
     mock_request.return_value = mock_response
 
-    transaction = {"operationAmount": {"amount": 10, "currency": {"code": "USD"}}}
-
     expected_result = 0
-    actual_result = get_currency_exchange(transaction)
+    actual_result = get_currency_exchange(transaction_params_load_usd)
     assert expected_result == actual_result
 
 
 
-def test_json_decode_error(mock_request):
+def test_json_decode_error(transaction_params_load_usd, mock_request):
     """Проверка реакции на некорректный JSON от API."""
     # Создание мока ответа
     mock_response = Mock()
@@ -55,9 +58,6 @@ def test_json_decode_error(mock_request):
     mock_response.json.side_effect = json.decoder.JSONDecodeError("", "", 0)  # Исключение при чтении JSON
     mock_request.return_value = mock_response  # возвращаем подставленный ответ
 
-    # Транзакция в валюте USD
-    transaction = {"operationAmount": {"amount": 10, "currency": {"code": "USD"}}}
-
     # Ожидается исключение JSONDecodeError
     with pytest.raises(json.decoder.JSONDecodeError):
-        get_currency_exchange(transaction)
+        get_currency_exchange(transaction_params_load_usd)
