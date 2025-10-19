@@ -74,3 +74,15 @@ def test_my_function_kwargs(capsys):
     my_function_kwargs(4, 5, 7.2)
     captured = capsys.readouterr()
     assert captured.out[46:-50] == "my_function_kwargs ok"
+
+
+# Пример простой функции, которую мы украсим нашим декоратором
+@log(filename="\\path\\to\\nonexistent\\logfile.log")
+def example_function(x: int, y: int) -> int:
+    return x + y
+
+# Тест для проверки ошибки FileNotFoundError
+def test_decorator_file_not_found_error():
+    # Приводим нашу функцию к ошибке путем передачи несуществующего файла
+    with pytest.raises(FileNotFoundError):
+        example_function(1, 2)
