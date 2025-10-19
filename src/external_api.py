@@ -21,12 +21,13 @@ def get_currency_exchange(transaction: dict) -> float:
     """
 
     try:
-        if transaction.get("operationAmount", {}).get("currency", {}).get("code", {}) == "RUB":
+        carrency_code = transaction.get("operationAmount", {}).get("currency", {}).get("code", "")
+        if carrency_code == "RUB":
             return float(transaction.get("operationAmount", {}).get("amount", 0))
         else:
             amount_transaction = transaction.get("operationAmount", {}).get("amount", 0)
             if not amount_transaction == 0:
-                params_load = {"amount": amount_transaction, "from": "EUR", "to": "RUB"}
+                params_load = {"amount": amount_transaction, "from": carrency_code, "to": "RUB"}
                 response = requests.get(url=url, params=params_load, headers=headers)
                 print(response)
                 if response.status_code == 200:

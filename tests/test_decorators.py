@@ -81,6 +81,7 @@ def test_my_function_kwargs(capsys):
 def example_function(x: int, y: int) -> int:
     return x + y
 
+
 # Тест для проверки ошибки FileNotFoundError
 def test_decorator_file_not_found_error():
     # Приводим нашу функцию к ошибке путем передачи несуществующего файла
