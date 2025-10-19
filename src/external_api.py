@@ -35,7 +35,8 @@ def get_currency_exchange(transaction: dict) -> float:
                     except json.decoder.JSONDecodeError as e:
                         raise (e)
                 else:
-                    raise (response.status_code)
+                    print(f" Ошибка статус - код: {str(response.status_code)}")
+                    return 0
             else:
                 return 0
     except Exception as e:
