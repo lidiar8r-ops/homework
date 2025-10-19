@@ -1,7 +1,9 @@
-from unittest.mock import patch, Mock
-import pytest
-from src.external_api import get_currency_exchange
 import json
+from unittest.mock import Mock, patch
+
+import pytest
+
+from src.external_api import get_currency_exchange
 
 
 def test_usd_to_rub_conversion(transaction_params_load_usd, mock_request):
@@ -38,6 +40,7 @@ def mock_request():
     with patch("requests.get") as mocked_get:
         yield mocked_get
 
+
 def test_http_error(transaction_params_load_usd, mock_request):
     """Проверка реакции на сетевую ошибку (код статуса отличающийся от 200)"""
     mock_response = Mock()
@@ -47,7 +50,6 @@ def test_http_error(transaction_params_load_usd, mock_request):
     expected_result = 0
     actual_result = get_currency_exchange(transaction_params_load_usd)
     assert expected_result == actual_result
-
 
 
 def test_json_decode_error(transaction_params_load_usd, mock_request):

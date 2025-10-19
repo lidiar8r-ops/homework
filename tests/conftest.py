@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 import pytest
 
 
@@ -177,3 +180,31 @@ def transaction_params_load_usd() -> dict:
     }
 
 
+# Создание временных файлов
+@pytest.fixture(scope="module", autouse=True)
+def create_temp_files():
+    valid_json_path = None
+    invalid_json_path = None
+    nonexistent_file_path = r"..\nodata\operations.json"
+
+    # Временный файл с валидным JSON
+    with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".json") as temp_valid_file:
+        valid_json_path = temp_valid_file.name
+        temp_valid_file.write('[{"id": 1}, {"id": 2}, {"id": 5}]')
+
+    # Временный файл с неправильным форматом JSON
+    with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".json") as temp_invalid_file:
+        invalid_json_path = temp_invalid_file.name
+        temp_invalid_file.write("{'not-a-valid-json'")
+
+    yield {
+        "valid_json_path": valid_json_path,
+        "invalid_json_path": invalid_json_path,
+        "nonexistent_file_path": nonexistent_file_path,
+    }
+
+    # Удаление созданных временных файлов
+    if valid_json_path is not None:
+        os.remove(valid_json_path)
+    if invalid_json_path is not None:
+        os.remove(invalid_json_path)
