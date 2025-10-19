@@ -17,4 +17,4 @@ def get_list_transaction(path_file: str)->list :
         return []
 
 
-print(get_list_transaction(r'..\data\operations.json'))
+# print(get_list_transaction(r'..\data\test_operations.json'))
