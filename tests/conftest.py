@@ -152,7 +152,20 @@ def transactions_no_currency() -> list:  # Имя фикстуры — любо�
 
 
 @pytest.fixture
-def transaction_params_load() -> dict:
+def transaction_params_load_rub() -> dict:
+    return {
+        "id": 41428829,
+        "state": "EXECUTED",
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": "100", "currency": {"name": "руб.", "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "MasterCard 7158300734726758",
+        "to": "Счет 35383033474447895560",
+    }
+
+
+@pytest.fixture
+def transaction_params_load_usd() -> dict:
     return {
         "id": 41428829,
         "state": "EXECUTED",
@@ -162,3 +175,16 @@ def transaction_params_load() -> dict:
         "from": "MasterCard 7158300734726758",
         "to": "Счет 35383033474447895560",
     }
+
+
+@pytest.fixture
+def mock_request():
+    with patch("requests.get") as mocked_get:
+        yield mocked_get
+
+
+@pytest.fixture
+def mock_request():
+    with patch("requests.get") as mocked_get:
+        yield mocked_get
+
