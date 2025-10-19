@@ -29,7 +29,7 @@ def get_currency_exchange(transaction: dict) -> float:
             if not amount_transaction == 0:
                 params_load = {"amount": amount_transaction, "from": carrency_code, "to": "RUB"}
                 response = requests.get(url=url, params=params_load, headers=headers)
-                print(response)
+                # print(response)
                 if response.status_code == 200:
                     try:
                         return float(response.json()["result"])
