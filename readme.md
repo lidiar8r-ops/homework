@@ -1,11 +1,11 @@
-# example_home_work_live
+# widget for bank
 
-домашние задания для live 
+виджет, который показывает несколько последних успешных банковских операций клиента.
 
 ## Cтатус разработки: 
 в разработке
 
-## Установка: 
+## Установка:
 
 1 Клонируйте репозиторий:
 ``` git clone git@github.com:lidiar8r-ops/homework.git  ```
@@ -27,7 +27,7 @@
 Код покрыт тестами Coverage report: 100%
 
 HTML-отчёт, который показывает, какие строки кода были покрыты тестами, а какие нет в 
-[(htmlcov/index.html)](https://github.com/lidiar8r-ops/homework/blob/homework_13.1/htmlcov/index.html)
+[(htmlcov/index.html)](https://github.com/lidiar8r-ops/homework/blob/maim/htmlcov/index.html)
 
 Для запуска тестов воспользуйтесь командой  ```poetry```
 
