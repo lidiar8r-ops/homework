@@ -1,11 +1,11 @@
-# example_home_work_live
+# widget for bank
 
-домашние задания для live 
+виджет, который показывает несколько последних успешных банковских операций клиента.
 
 ## Cтатус разработки: 
 в разработке
 
-## Установка: 
+## Установка:
 
 1 Клонируйте репозиторий:
 ``` git clone git@github.com:lidiar8r-ops/homework.git  ```
@@ -27,10 +27,9 @@
 Код покрыт тестами Coverage report: 100%
 
 HTML-отчёт, который показывает, какие строки кода были покрыты тестами, а какие нет в 
-[(htmlcov/index.html)](https://github.com/lidiar8r-ops/homework/blob/homework_13.1/htmlcov/index.html)
+[(htmlcov/index.html)](https://github.com/lidiar8r-ops/homework/blob/main/htmlcov/index.html)
 
 Для запуска тестов воспользуйтесь командой  ```poetry```
-
 ## Новое
 
 * Добавлен новый модуль ```get_csv_xls.py``` в нем функция get_csv_xlsx_reader_transaction(path_filename: str) , которая
